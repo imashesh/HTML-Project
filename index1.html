@@ -1,0 +1,2829 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VoyaBus — Bus Reservation System</title>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    background: #f5f5f5;
+    color: #111111;
+    overflow-x: hidden;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root {
+    --black: #000000;
+    --dark: #0a0a0a;
+    --dark-2: #111111;
+    --gray-900: #171717;
+    --gray-800: #262626;
+    --gray-700: #404040;
+    --gray-600: #525252;
+    --gray-500: #737373;
+    --gray-400: #a3a3a3;
+    --gray-300: #d4d4d4;
+    --gray-200: #e5e5e5;
+    --gray-100: #f5f5f5;
+    --white: #ffffff;
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    z-index: 100;
+
+    padding: 24px 6%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: white;
+
+    font-size: 25px;
+    font-weight: 800;
+
+    letter-spacing: -1px;
+}
+
+.logo-mark {
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 11px;
+
+    background: white;
+
+    color: black;
+
+    font-size: 18px;
+}
+
+.logo span {
+    color: #a3a3a3;
+}
+
+.nav-links {
+    display: flex;
+
+    align-items: center;
+
+    gap: 32px;
+
+    list-style: none;
+}
+
+.nav-links a {
+    color: #bdbdbd;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    transition: .25s;
+}
+
+.nav-links a:hover {
+    color: white;
+}
+
+.nav-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+}
+
+.login {
+    color: #d4d4d4;
+
+    text-decoration: none;
+
+    font-size: 14px;
+}
+
+.signup {
+    color: black;
+
+    background: white;
+
+    padding: 11px 19px;
+
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition: .25s;
+}
+
+.signup:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(255,255,255,.12);
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    min-height: 760px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 75% 20%,
+            #252525,
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #000000,
+            #111111 55%,
+            #050505
+        );
+}
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 700px;
+    height: 700px;
+
+    right: -250px;
+    top: -220px;
+
+    border: 1px solid #252525;
+
+    border-radius: 50%;
+}
+
+.hero::after {
+    content: "";
+
+    position: absolute;
+
+    width: 450px;
+    height: 450px;
+
+    left: -230px;
+    bottom: -240px;
+
+    border: 1px solid #1f1f1f;
+
+    border-radius: 50%;
+}
+
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
+.hero-container {
+    width: 88%;
+    max-width: 1250px;
+
+    margin: auto;
+
+    padding-top: 155px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+.hero-grid {
+    display: grid;
+
+    grid-template-columns:
+        1.05fr
+        .95fr;
+
+    align-items: center;
+
+    gap: 60px;
+}
+
+.hero-content {
+    color: white;
+}
+
+.hero-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 8px 14px;
+
+    border-radius: 30px;
+
+    background: #161616;
+
+    border: 1px solid #2b2b2b;
+
+    color: #d4d4d4;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    margin-bottom: 25px;
+}
+
+.hero-badge .dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: white;
+}
+
+.hero h1 {
+    font-size: clamp(48px, 6vw, 78px);
+
+    line-height: .98;
+
+    letter-spacing: -4px;
+
+    max-width: 700px;
+
+    margin-bottom: 25px;
+}
+
+.hero h1 span {
+    color: #737373;
+}
+
+.hero-description {
+    max-width: 570px;
+
+    color: #a3a3a3;
+
+    font-size: 17px;
+
+    line-height: 1.7;
+
+    margin-bottom: 32px;
+}
+
+.hero-buttons {
+    display: flex;
+
+    gap: 12px;
+}
+
+.primary-btn {
+    border: none;
+
+    color: black;
+
+    background: white;
+
+    padding: 14px 23px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .25s;
+}
+
+.primary-btn:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 30px rgba(255,255,255,.15);
+}
+
+.secondary-btn {
+    padding: 14px 22px;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    border: 1px solid #3a3a3a;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: .25s;
+}
+
+.secondary-btn:hover {
+    background: #1a1a1a;
+
+    border-color: #666;
+}
+
+
+/* =========================================================
+   BUS ILLUSTRATION
+========================================================= */
+
+.hero-visual {
+    min-height: 450px;
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.glow {
+    position: absolute;
+
+    width: 380px;
+    height: 380px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #292929,
+            transparent 65%
+        );
+}
+
+.bus-visual {
+    position: relative;
+
+    width: 390px;
+    height: 235px;
+
+    border-radius: 30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #d4d4d4
+        );
+
+    transform:
+        perspective(900px)
+        rotateY(-8deg)
+        rotateX(2deg);
+
+    box-shadow:
+        0 40px 70px rgba(0,0,0,.5);
+}
+
+.bus-front {
+    position: absolute;
+
+    right: 0;
+    top: 0;
+
+    width: 70px;
+    height: 100%;
+
+    border-radius: 0 30px 30px 0;
+
+    background: #eeeeee;
+}
+
+.bus-window {
+    position: absolute;
+
+    left: 28px;
+    top: 30px;
+
+    width: 300px;
+    height: 70px;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #111111,
+            #3a3a3a
+        );
+}
+
+.bus-window::after {
+    content: "";
+
+    position: absolute;
+
+    left: 120px;
+    top: 0;
+
+    width: 2px;
+    height: 100%;
+
+    background: #555555;
+}
+
+.bus-body-line {
+    position: absolute;
+
+    left: 28px;
+    right: 35px;
+
+    top: 125px;
+
+    height: 5px;
+
+    border-radius: 10px;
+
+    background: #111111;
+}
+
+.bus-label {
+    position: absolute;
+
+    left: 30px;
+    bottom: 30px;
+
+    color: #111111;
+
+    font-size: 14px;
+
+    font-weight: 900;
+
+    letter-spacing: 3px;
+}
+
+.wheel {
+    position: absolute;
+
+    bottom: -25px;
+
+    width: 65px;
+    height: 65px;
+
+    border-radius: 50%;
+
+    background: #111111;
+
+    border: 9px solid #404040;
+
+    box-shadow:
+        inset 0 0 0 8px #111111;
+}
+
+.wheel-one {
+    left: 50px;
+}
+
+.wheel-two {
+    right: 65px;
+}
+
+
+/* =========================================================
+   FLOATING CARDS
+========================================================= */
+
+.float-card {
+    position: absolute;
+
+    background: #ffffff;
+
+    border-radius: 13px;
+
+    padding: 13px 16px;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.35);
+
+    font-size: 12px;
+
+    color: #111111;
+
+    animation: float 4s ease-in-out infinite;
+}
+
+.float-card strong {
+    display: block;
+
+    font-size: 15px;
+
+    margin-bottom: 2px;
+}
+
+.float-one {
+    top: 35px;
+
+    right: 5px;
+}
+
+.float-two {
+    left: 0;
+
+    bottom: 40px;
+
+    animation-delay: 1.5s;
+}
+
+@keyframes float {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-9px);
+    }
+
+}
+
+
+/* =========================================================
+   BOOKING CARD
+========================================================= */
+
+.booking-wrapper {
+    width: 88%;
+    max-width: 1160px;
+
+    margin: -100px auto 0;
+
+    position: relative;
+
+    z-index: 10;
+}
+
+.booking-card {
+    padding: 25px;
+
+    border-radius: 22px;
+
+    background: white;
+
+    box-shadow:
+        0 30px 70px rgba(0,0,0,.14);
+
+    border: 1px solid #e5e5e5;
+}
+
+.booking-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+.booking-title {
+    font-size: 18px;
+
+    font-weight: 800;
+}
+
+.booking-subtitle {
+    color: #8a8a8a;
+
+    font-size: 12px;
+
+    margin-top: 3px;
+}
+
+.trip-buttons {
+    display: flex;
+
+    gap: 6px;
+}
+
+.trip-button {
+    border: none;
+
+    padding: 8px 14px;
+
+    border-radius: 8px;
+
+    background: #f0f0f0;
+
+    color: #666666;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.trip-button.active {
+    color: white;
+
+    background: black;
+}
+
+.booking-grid {
+    display: grid;
+
+    grid-template-columns:
+        1.1fr
+        1.1fr
+        1fr
+        1fr
+        auto;
+
+    gap: 10px;
+}
+
+.booking-field {
+    padding: 12px 14px;
+
+    border: 1px solid #e5e5e5;
+
+    border-radius: 12px;
+
+    background: #fafafa;
+}
+
+.booking-field:focus-within {
+    border-color: #111111;
+
+    background: white;
+}
+
+.booking-field label {
+    display: block;
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+
+    letter-spacing: .8px;
+
+    color: #999999;
+
+    font-weight: 700;
+
+    margin-bottom: 5px;
+}
+
+.booking-field input,
+.booking-field select {
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #111111;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.search-button {
+    border: none;
+
+    border-radius: 12px;
+
+    padding: 0 24px;
+
+    color: white;
+
+    background: black;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .25s;
+}
+
+.search-button:hover {
+    background: #262626;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.2);
+}
+
+
+/* =========================================================
+   TRUST
+========================================================= */
+
+.trust {
+    padding: 75px 6% 30px;
+
+    text-align: center;
+}
+
+.trust-text {
+    color: #999999;
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1.7px;
+
+    margin-bottom: 22px;
+}
+
+.trust-items {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 65px;
+
+    flex-wrap: wrap;
+
+    color: #b5b5b5;
+
+    font-size: 17px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   GENERAL SECTION
+========================================================= */
+
+.section {
+    padding: 100px 6%;
+}
+
+.section-header {
+    max-width: 620px;
+
+    margin-bottom: 45px;
+}
+
+.eyebrow {
+    color: #555555;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1.7px;
+
+    margin-bottom: 10px;
+}
+
+.section-header h2 {
+    font-size: 42px;
+
+    letter-spacing: -1.5px;
+
+    margin-bottom: 12px;
+}
+
+.section-header p {
+    color: #707070;
+
+    line-height: 1.7;
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   DESTINATIONS
+========================================================= */
+
+.destinations {
+    background: #f5f5f5;
+}
+
+.destination-grid {
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        1.4fr
+        1fr
+        1fr;
+
+    grid-template-rows:
+        230px
+        230px;
+
+    gap: 16px;
+}
+
+.destination {
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 22px;
+
+    padding: 25px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent 20%,
+            rgba(0,0,0,.9)
+        ),
+        linear-gradient(
+            135deg,
+            #555555,
+            #111111
+        );
+
+    cursor: pointer;
+
+    transition: .35s;
+}
+
+.destination:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 20px 40px rgba(0,0,0,.14);
+}
+
+.destination.large {
+    grid-row: span 2;
+}
+
+.destination:nth-child(2) {
+    background:
+        linear-gradient(
+            180deg,
+            transparent 20%,
+            rgba(0,0,0,.9)
+        ),
+        linear-gradient(
+            135deg,
+            #737373,
+            #171717
+        );
+}
+
+.destination:nth-child(3) {
+    background:
+        linear-gradient(
+            180deg,
+            transparent 20%,
+            rgba(0,0,0,.9)
+        ),
+        linear-gradient(
+            135deg,
+            #404040,
+            #050505
+        );
+}
+
+.destination:nth-child(4) {
+    background:
+        linear-gradient(
+            180deg,
+            transparent 20%,
+            rgba(0,0,0,.9)
+        ),
+        linear-gradient(
+            135deg,
+            #737373,
+            #262626
+        );
+}
+
+.destination:nth-child(5) {
+    background:
+        linear-gradient(
+            180deg,
+            transparent 20%,
+            rgba(0,0,0,.9)
+        ),
+        linear-gradient(
+            135deg,
+            #525252,
+            #171717
+        );
+}
+
+.destination-content {
+    position: relative;
+
+    z-index: 2;
+}
+
+.destination .city {
+    font-size: 22px;
+
+    font-weight: 800;
+}
+
+.destination .route {
+    margin-top: 5px;
+
+    color: #cfcfcf;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.features {
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 18px;
+}
+
+.feature-card {
+    padding: 30px;
+
+    border-radius: 18px;
+
+    background: white;
+
+    border: 1px solid #e7e7e7;
+
+    transition: .3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+
+    border-color: #b5b5b5;
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.07);
+}
+
+.feature-number {
+    width: 43px;
+    height: 43px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 12px;
+
+    background: #f1f1f1;
+
+    color: #111111;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    margin-bottom: 22px;
+}
+
+.feature-card h3 {
+    margin-bottom: 9px;
+
+    font-size: 17px;
+}
+
+.feature-card p {
+    color: #707070;
+
+    line-height: 1.6;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats-section {
+    padding: 30px 6% 100px;
+}
+
+.stats {
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    background: #111111;
+
+    border-radius: 22px;
+
+    overflow: hidden;
+}
+
+.stat {
+    padding: 32px;
+
+    text-align: center;
+
+    border-right: 1px solid #292929;
+}
+
+.stat:last-child {
+    border-right: none;
+}
+
+.stat-number {
+    color: white;
+
+    font-size: 30px;
+
+    font-weight: 800;
+
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    color: #8f8f8f;
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.cta-section {
+    padding: 50px 6% 100px;
+}
+
+.cta {
+    max-width: 1200px;
+
+    margin: auto;
+
+    border-radius: 28px;
+
+    padding: 60px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at 85% 20%,
+            #303030,
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #080808,
+            #1c1c1c
+        );
+}
+
+.cta::after {
+    content: "BUS";
+
+    position: absolute;
+
+    right: -20px;
+
+    bottom: -55px;
+
+    font-size: 170px;
+
+    font-weight: 900;
+
+    color: rgba(255,255,255,.035);
+}
+
+.discount {
+    display: inline-block;
+
+    padding: 9px 13px;
+
+    border-radius: 8px;
+
+    background: #1f1f1f;
+
+    border: 1px solid #333333;
+
+    color: #d4d4d4;
+
+    font-size: 11px;
+
+    margin-bottom: 25px;
+}
+
+.cta h2 {
+    font-size: 38px;
+
+    letter-spacing: -1px;
+
+    margin-bottom: 12px;
+}
+
+.cta p {
+    color: #999999;
+
+    max-width: 500px;
+
+    line-height: 1.6;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    background: #000000;
+
+    color: white;
+
+    padding: 65px 6% 25px;
+}
+
+.footer-grid {
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        2fr
+        1fr
+        1fr
+        1fr;
+
+    gap: 50px;
+}
+
+.footer-brand p {
+    color: #666666;
+
+    max-width: 320px;
+
+    margin-top: 15px;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+footer h4 {
+    font-size: 13px;
+
+    margin-bottom: 17px;
+}
+
+footer ul {
+    list-style: none;
+}
+
+footer li {
+    margin-bottom: 11px;
+}
+
+footer a {
+    color: #666666;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    transition: .2s;
+}
+
+footer a:hover {
+    color: white;
+}
+
+.footer-bottom {
+    max-width: 1200px;
+
+    margin: 45px auto 0;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #1d1d1d;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #4d4d4d;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal {
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 999;
+
+    background: rgba(0,0,0,.72);
+
+    backdrop-filter: blur(7px);
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-box {
+    width: 100%;
+
+    max-width: 450px;
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.4);
+
+    animation: modalIn .25s ease;
+}
+
+@keyframes modalIn {
+
+    from {
+        opacity: 0;
+        transform:
+            translateY(15px)
+            scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+}
+
+.close {
+    float: right;
+
+    cursor: pointer;
+
+    font-size: 25px;
+
+    color: #888888;
+}
+
+.modal-box h2 {
+    margin-bottom: 8px;
+}
+
+.modal-box p {
+    color: #6b6b6b;
+
+    font-size: 13px;
+
+    margin-bottom: 20px;
+}
+
+.result {
+    padding: 18px;
+
+    border-radius: 12px;
+
+    background: #f3f3f3;
+
+    color: #222222;
+
+    line-height: 1.8;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1050px) {
+
+    .hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-content {
+        text-align: center;
+    }
+
+    .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .hero-visual {
+        min-height: 350px;
+    }
+
+    .booking-grid {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .search-button {
+        min-height: 50px;
+    }
+
+    .destination-grid {
+        grid-template-columns:
+            1fr 1fr;
+
+        grid-template-rows:
+            230px 230px;
+    }
+
+    .destination.large {
+        grid-row: auto;
+    }
+
+    .features {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .stats {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .stat:nth-child(2) {
+        border-right: none;
+    }
+
+    .footer-grid {
+        grid-template-columns:
+            2fr 1fr 1fr;
+    }
+}
+
+
+@media(max-width:700px) {
+
+    .navbar {
+        padding: 18px 5%;
+    }
+
+    .nav-links,
+    .nav-actions {
+        display: none;
+    }
+
+    .hero {
+        min-height: 920px;
+    }
+
+    .hero-container {
+        padding-top: 125px;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+
+        letter-spacing: -2.5px;
+    }
+
+    .hero-description {
+        font-size: 15px;
+    }
+
+    .hero-visual {
+        transform: scale(.78);
+
+        margin-top: -20px;
+    }
+
+    .booking-wrapper {
+        width: 92%;
+
+        margin-top: -70px;
+    }
+
+    .booking-top {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+    .booking-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-button {
+        padding: 16px;
+    }
+
+    .trust {
+        padding-top: 55px;
+    }
+
+    .trust-items {
+        gap: 25px;
+    }
+
+    .section {
+        padding: 70px 5%;
+    }
+
+    .section-header h2 {
+        font-size: 33px;
+    }
+
+    .destination-grid {
+        grid-template-columns: 1fr;
+
+        grid-template-rows:
+            repeat(5,190px);
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stat {
+        border-right: none;
+    }
+
+    .cta {
+        padding: 40px 25px;
+    }
+
+    .cta h2 {
+        font-size: 30px;
+    }
+
+    .footer-grid {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+
+        gap: 10px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVIGATION
+========================================================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+        <div class="logo-mark">
+            🚌
+        </div>
+
+        Voya<span>Bus</span>
+
+    </div>
+
+
+    <ul class="nav-links">
+
+        <li>
+            <a href="#home">Home</a>
+        </li>
+
+        <li>
+            <a href="#destinations">
+                Destinations
+            </a>
+        </li>
+
+        <li>
+            <a href="#features">
+                Features
+            </a>
+        </li>
+
+        <li>
+            <a href="#offers">
+                Offers
+            </a>
+        </li>
+
+    </ul>
+
+
+    <div class="nav-actions">
+
+        <a
+            href="#"
+            class="login"
+            onclick="openLogin(event)"
+        >
+            Login
+        </a>
+
+        <a
+            href="#"
+            class="signup"
+            onclick="openLogin(event)"
+        >
+            Create Account
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section
+    class="hero"
+    id="home"
+>
+
+    <div class="hero-container">
+
+        <div class="hero-grid">
+
+
+            <div class="hero-content">
+
+                <div class="hero-badge">
+
+                    <span class="dot"></span>
+
+                    Modern bus reservation experience
+
+                </div>
+
+
+                <h1>
+
+                    Your journey
+
+                    <br>
+
+                    <span>starts here.</span>
+
+                </h1>
+
+
+                <p class="hero-description">
+
+                    Search thousands of bus routes,
+                    compare available options, choose
+                    your seat and reserve your journey
+                    in just a few clicks.
+
+                </p>
+
+
+                <div class="hero-buttons">
+
+                    <a
+                        href="#booking"
+                        class="primary-btn"
+                    >
+                        Search Buses →
+                    </a>
+
+                    <a
+                        href="#destinations"
+                        class="secondary-btn"
+                    >
+                        Explore Routes
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUS ILLUSTRATION -->
+
+            <div class="hero-visual">
+
+                <div class="glow"></div>
+
+
+                <div class="float-card float-one">
+
+                    <strong>4.9 ★</strong>
+
+                    Traveler rating
+
+                </div>
+
+
+                <div class="bus-visual">
+
+                    <div class="bus-window"></div>
+
+                    <div class="bus-body-line"></div>
+
+                    <div class="bus-label">
+                        VOYABUS
+                    </div>
+
+                    <div class="bus-front"></div>
+
+                    <div class="wheel wheel-one"></div>
+
+                    <div class="wheel wheel-two"></div>
+
+                </div>
+
+
+                <div class="float-card float-two">
+
+                    <strong>1M+ trips</strong>
+
+                    booked successfully
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     BOOKING
+========================================================= -->
+
+<div
+    class="booking-wrapper"
+    id="booking"
+>
+
+    <div class="booking-card">
+
+
+        <div class="booking-top">
+
+            <div>
+
+                <div class="booking-title">
+                    Where are you going?
+                </div>
+
+                <div class="booking-subtitle">
+                    Search available buses and find your perfect ride.
+                </div>
+
+            </div>
+
+
+            <div class="trip-buttons">
+
+                <button
+                    class="trip-button active"
+                >
+                    One Way
+                </button>
+
+                <button
+                    class="trip-button"
+                >
+                    Round Trip
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <form id="bookingForm">
+
+            <div class="booking-grid">
+
+
+                <div class="booking-field">
+
+                    <label>From</label>
+
+                    <input
+                        type="text"
+                        id="from"
+                        placeholder="Departure city"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="booking-field">
+
+                    <label>To</label>
+
+                    <input
+                        type="text"
+                        id="to"
+                        placeholder="Destination city"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="booking-field">
+
+                    <label>Journey Date</label>
+
+                    <input
+                        type="date"
+                        id="journeyDate"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="booking-field">
+
+                    <label>Bus Type</label>
+
+                    <select id="busType">
+
+                        <option>
+                            All Buses
+                        </option>
+
+                        <option>
+                            AC Sleeper
+                        </option>
+
+                        <option>
+                            AC Seater
+                        </option>
+
+                        <option>
+                            Volvo
+                        </option>
+
+                        <option>
+                            Non-AC
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    class="search-button"
+                    type="submit"
+                >
+                    Search Buses
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     TRUST
+========================================================= -->
+
+<section class="trust">
+
+    <div class="trust-text">
+        Trusted by travelers across India
+    </div>
+
+    <div class="trust-items">
+
+        <span>TSRTC</span>
+
+        <span>APSRTC</span>
+
+        <span>KSRTC</span>
+
+        <span>ORANGE</span>
+
+        <span>VRL</span>
+
+        <span>INTRCITY</span>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     DESTINATIONS
+========================================================= -->
+
+<section
+    class="section destinations"
+    id="destinations"
+>
+
+    <div class="section-header">
+
+        <div class="eyebrow">
+            Popular destinations
+        </div>
+
+        <h2>
+            Go somewhere
+            <br>
+            worth remembering.
+        </h2>
+
+        <p>
+            Explore popular routes and discover
+            your next destination with comfortable
+            and convenient bus travel.
+        </p>
+
+    </div>
+
+
+    <div class="destination-grid">
+
+
+        <div class="destination large">
+
+            <div class="destination-content">
+
+                <div class="city">
+                    Hyderabad
+                </div>
+
+                <div class="route">
+                    Popular routes • From ₹499
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="destination">
+
+            <div class="destination-content">
+
+                <div class="city">
+                    Bengaluru
+                </div>
+
+                <div class="route">
+                    40+ daily buses
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="destination">
+
+            <div class="destination-content">
+
+                <div class="city">
+                    Chennai
+                </div>
+
+                <div class="route">
+                    35+ daily buses
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="destination">
+
+            <div class="destination-content">
+
+                <div class="city">
+                    Vijayawada
+                </div>
+
+                <div class="route">
+                    25+ daily buses
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="destination">
+
+            <div class="destination-content">
+
+                <div class="city">
+                    Visakhapatnam
+                </div>
+
+                <div class="route">
+                    20+ daily buses
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FEATURES
+========================================================= -->
+
+<section
+    class="section"
+    id="features"
+>
+
+    <div class="section-header">
+
+        <div class="eyebrow">
+            Why VoyaBus
+        </div>
+
+        <h2>
+            Everything you need
+            <br>
+            for a better journey.
+        </h2>
+
+        <p>
+            A simple reservation experience designed
+            around what travelers actually need.
+        </p>
+
+    </div>
+
+
+    <div class="features">
+
+
+        <div class="feature-card">
+
+            <div class="feature-number">
+                01
+            </div>
+
+            <h3>
+                Smart Search
+            </h3>
+
+            <p>
+                Compare routes, operators, timings
+                and fares in one convenient place.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-number">
+                02
+            </div>
+
+            <h3>
+                Choose Your Seat
+            </h3>
+
+            <p>
+                View available seats and select
+                the one that works best for you.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-number">
+                03
+            </div>
+
+            <h3>
+                Secure Booking
+            </h3>
+
+            <p>
+                Your reservation and payment information
+                are handled through a secure process.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-number">
+                04
+            </div>
+
+            <h3>
+                Instant Confirmation
+            </h3>
+
+            <p>
+                Receive your booking confirmation
+                immediately after reservation.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-number">
+                05
+            </div>
+
+            <h3>
+                Flexible Travel
+            </h3>
+
+            <p>
+                Find different bus categories and
+                timings to match your preferences.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-number">
+                06
+            </div>
+
+            <h3>
+                Travel Support
+            </h3>
+
+            <p>
+                Get assistance whenever you need
+                help with your booking or journey.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     STATISTICS
+========================================================= -->
+
+<section class="stats-section">
+
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <div class="stat-number">
+                500+
+            </div>
+
+            <div class="stat-label">
+                Bus Operators
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-number">
+                20K+
+            </div>
+
+            <div class="stat-label">
+                Daily Routes
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-number">
+                1M+
+            </div>
+
+            <div class="stat-label">
+                Travelers
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-number">
+                24/7
+            </div>
+
+            <div class="stat-label">
+                Support
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     OFFER
+========================================================= -->
+
+<section
+    class="cta-section"
+    id="offers"
+>
+
+    <div class="cta">
+
+        <div class="discount">
+            FIRST-TIME TRAVELER OFFER
+        </div>
+
+
+        <h2>
+            Your first journey
+            <br>
+            comes with a little extra.
+        </h2>
+
+
+        <p>
+            Get ₹150 OFF on your first booking.
+            Use the code below when you reserve your ticket.
+        </p>
+
+
+        <button
+            class="primary-btn"
+            onclick="copyOffer()"
+        >
+            Use Code BUS150
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    <div class="footer-grid">
+
+
+        <div class="footer-brand">
+
+            <div class="logo">
+
+                <div class="logo-mark">
+                    🚌
+                </div>
+
+                Voya<span>Bus</span>
+
+            </div>
+
+            <p>
+                Modern bus booking designed to make
+                every journey simpler, smarter and more comfortable.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h4>Explore</h4>
+
+            <ul>
+
+                <li>
+                    <a href="#home">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#destinations">
+                        Destinations
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#features">
+                        Features
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#offers">
+                        Offers
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div>
+
+            <h4>Support</h4>
+
+            <ul>
+
+                <li>
+                    <a href="#">
+                        Help Center
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        Contact Us
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        Cancellation
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        FAQs
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div>
+
+            <h4>Legal</h4>
+
+            <ul>
+
+                <li>
+                    <a href="#">
+                        Privacy
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        Terms
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        Refund Policy
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <span>
+            © 2026 VoyaBus. All rights reserved.
+        </span>
+
+        <span>
+            Built for better journeys.
+        </span>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =========================================================
+     SEARCH MODAL
+========================================================= -->
+
+<div
+    class="modal"
+    id="searchModal"
+>
+
+    <div class="modal-box">
+
+        <span
+            class="close"
+            onclick="closeModal()"
+        >
+            ×
+        </span>
+
+        <h2>
+            Search Details
+        </h2>
+
+        <p>
+            Your bus search details are ready.
+        </p>
+
+        <div
+            class="result"
+            id="searchResult"
+        ></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     LOGIN MODAL
+========================================================= -->
+
+<div
+    class="modal"
+    id="loginModal"
+>
+
+    <div class="modal-box">
+
+        <span
+            class="close"
+            onclick="closeLogin()"
+        >
+            ×
+        </span>
+
+        <h2>
+            Welcome back
+        </h2>
+
+        <p>
+            Sign in to manage your bookings.
+        </p>
+
+
+        <input
+            type="email"
+            placeholder="Email address"
+            style="
+                width:100%;
+                padding:14px;
+                margin-bottom:12px;
+                border:1px solid #e5e5e5;
+                border-radius:10px;
+                outline:none;
+            "
+        >
+
+
+        <input
+            type="password"
+            placeholder="Password"
+            style="
+                width:100%;
+                padding:14px;
+                margin-bottom:15px;
+                border:1px solid #e5e5e5;
+                border-radius:10px;
+                outline:none;
+            "
+        >
+
+
+        <button
+            class="primary-btn"
+            style="width:100%;"
+            onclick="login()"
+        >
+            Sign In
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =========================================================
+   SET MINIMUM DATE
+========================================================= */
+
+const today = new Date();
+
+const yyyy =
+    today.getFullYear();
+
+const mm =
+    String(
+        today.getMonth() + 1
+    ).padStart(2, "0");
+
+const dd =
+    String(
+        today.getDate()
+    ).padStart(2, "0");
+
+document
+    .getElementById("journeyDate")
+    .min =
+    `${yyyy}-${mm}-${dd}`;
+
+
+/* =========================================================
+   BOOKING FORM
+========================================================= */
+
+document
+    .getElementById("bookingForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const from =
+                document
+                .getElementById("from")
+                .value;
+
+
+            const to =
+                document
+                .getElementById("to")
+                .value;
+
+
+            const date =
+                document
+                .getElementById("journeyDate")
+                .value;
+
+
+            const type =
+                document
+                .getElementById("busType")
+                .value;
+
+
+            document
+                .getElementById("searchResult")
+                .innerHTML = `
+
+                    <strong>
+                        BUS SEARCH
+                    </strong>
+
+                    <br><br>
+
+                    <strong>
+                        From:
+                    </strong>
+
+                    ${from}
+
+                    <br>
+
+                    <strong>
+                        To:
+                    </strong>
+
+                    ${to}
+
+                    <br>
+
+                    <strong>
+                        Journey Date:
+                    </strong>
+
+                    ${date}
+
+                    <br>
+
+                    <strong>
+                        Bus Type:
+                    </strong>
+
+                    ${type}
+
+                    <br><br>
+
+                    Available buses can now
+                    be loaded from your backend.
+
+                `;
+
+
+            document
+                .getElementById("searchModal")
+                .classList
+                .add("active");
+
+        }
+    );
+
+
+/* =========================================================
+   SEARCH MODAL
+========================================================= */
+
+function closeModal() {
+
+    document
+        .getElementById("searchModal")
+        .classList
+        .remove("active");
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+function openLogin(event) {
+
+    event.preventDefault();
+
+    document
+        .getElementById("loginModal")
+        .classList
+        .add("active");
+
+}
+
+
+function closeLogin() {
+
+    document
+        .getElementById("loginModal")
+        .classList
+        .remove("active");
+
+}
+
+
+function login() {
+
+    alert(
+        "Login functionality can be connected to your backend."
+    );
+
+}
+
+
+/* =========================================================
+   COPY OFFER
+========================================================= */
+
+function copyOffer() {
+
+    navigator.clipboard
+        .writeText("BUS150")
+        .then(
+            function() {
+
+                alert(
+                    "Coupon BUS150 copied successfully!"
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   CLOSE MODALS
+========================================================= */
+
+window.addEventListener(
+    "click",
+    function(event) {
+
+        const searchModal =
+            document
+            .getElementById("searchModal");
+
+        const loginModal =
+            document
+            .getElementById("loginModal");
+
+
+        if (
+            event.target ===
+            searchModal
+        ) {
+            closeModal();
+        }
+
+
+        if (
+            event.target ===
+            loginModal
+        ) {
+            closeLogin();
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
+```
